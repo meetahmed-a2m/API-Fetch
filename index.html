@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weather Dashboard</title>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<style>
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background:#2c2c2c;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.dashboard{
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    width:350px;
+    text-align:center;
+    box-shadow:0 0 10px rgba(0,0,0,0.3);
+}
+
+input{
+    padding:8px;
+    width:70%;
+    margin-top:10px;
+}
+
+button{
+    padding:8px 15px;
+    margin-top:10px;
+    background:#007BFF;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.result{
+    margin-top:20px;
+    background:#f2f2f2;
+    padding:15px;
+    border-radius:8px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<h2>Weather Dashboard</h2>
+
+<form onsubmit="getWeather(); return false;">
+<label>Enter City</label><br>
+<input type="text" id="city" placeholder="e.g. Lahore">
+<br>
+<button type="submit">Get Weather</button>
+</form>
+
+<div class="result">
+<p id="cityName">City: --</p>
+<p id="temperature">Temperature: --</p>
+<p id="condition">Weather: --</p>
+</div>
+
+</div>
+
+<script>
+
+function getWeather(){
+
+let city = document.getElementById("city").value;
+
+axios.get(`https://api.weatherapi.com/v1/current.json?key=b8fbf7f7a14a40daad2163422261804&q=${city}&aqi=yes`)
+
+.then(function(response){
+
+document.getElementById("cityName").innerText =
+"City: " + response.data.location.name;
+
+document.getElementById("temperature").innerText =
+"Temperature: " + response.data.current.temp_c + " °C";
+
+document.getElementById("condition").innerText =
+"Weather: " + response.data.current.condition.text;
+
+})
+
+.catch(function(error){
+alert("City not found ❌");
+});
+
+}
+
+</script>
+
+</body>
+</html>
